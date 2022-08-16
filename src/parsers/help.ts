@@ -14,11 +14,9 @@ class Helper {
        let { robot } = this;
 
        robot.registerParser(/^h(elp)?$/,(msg) => {
-       
-        new Response({robot,msg})
-        .set(`xiaoba is robot you can ask questions by cli,voice,dingding etc.`)
-        .set(`currently the cli mode has done`)
-
+            new Response({robot,msg})
+            .set(`xiaoba is robot you can ask questions by cli,voice,dingding etc.`)
+            .set(`currently the cli mode has done`)
        })
     }
 }

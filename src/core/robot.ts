@@ -7,14 +7,22 @@ let path = require('path')
 import {
     helper
 } from '../parsers/help'
+
+import {
+    base
+} from '../parsers/base'
 import { Hooks } from './hooks'
+
 
 import { Message } from './message'
 import { Parser } from './parser'
 import { Response } from './response'
 
+let chalk = require('chalk')
+
 let defaultParses = [
-    helper
+    helper,
+    base
 ]
 
 export class Robot {
@@ -43,7 +51,6 @@ export class Robot {
 
 
     run() {
-        console.log(`###adpater run`)
         this.interact?.run();
     }
 
@@ -53,8 +60,9 @@ export class Robot {
 
         await this.executeParser(message)
 
-        if (!message.hasDone) {
-            new Response({ msg:message,text:"小八还小,不知道你的问的问题诶",robot:this})
+        if (!message.hasDone()) {
+
+            new Response({ msg:message,text:chalk.green("小八还小,不知道你的问的问题诶"),robot:this})
 
         }
 
@@ -73,7 +81,6 @@ export class Robot {
     async executeParser(message:Message) {
 
         let { parsers } = this;
-
 
         for (let parser of parsers) {
             parser.run(message)
