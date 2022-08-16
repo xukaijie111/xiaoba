@@ -8,6 +8,16 @@ export class Shell {
     constructor(options:Shell.options) {
         this.options = options;
     }
+
+
+    send(){
+
+    }
+
+
+    run() {
+        
+    }
 }
 
 
