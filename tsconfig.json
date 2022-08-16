@@ -1,29 +1,10 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "sourceMap": false,
-    "target": "es2016",
-    "useDefineForClassFields": false,
-    "module": "esnext",
+  "ts-node":{
+    "module":"commonjs",
+    "target":"es2015",
     "moduleResolution": "node",
-    "allowJs": false,
-    "strict": true,
-    "noUnusedLocals": true,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
-    "removeComments": false,
     "strictPropertyInitialization":false,
-    "jsx": "preserve",
-    "lib": ["esnext", "dom"],
-    "types": ["jest", "puppeteer", "node"],
-    "rootDir": ".",
-    "paths": {
-      "@/*": ["src/*"],
-    }
-  },
-  "include": [
-    "packages/*/src",
-  ]
+    "esm":true
+}
 }

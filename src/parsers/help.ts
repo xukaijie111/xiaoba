@@ -1,4 +1,5 @@
 
+import { Response } from '../core/response';
 import {
     Robot
 } from '../core/robot'
@@ -10,7 +11,15 @@ class Helper {
     }
 
     run() {
-        console.log(`####123`);
+       let { robot } = this;
+
+       robot.registerParser(/^h(elp)?$/,(msg) => {
+       
+        new Response({robot,msg})
+        .set(`xiaoba is robot you can ask questions by cli,voice,dingding etc.`)
+        .set(`currently the cli mode has done`)
+
+       })
     }
 }
 

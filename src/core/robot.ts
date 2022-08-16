@@ -1,8 +1,8 @@
 
 
 
-import _ from 'lodash'
-import Path from 'path'
+import * as _ from 'lodash'
+let path = require('path')
 
 import {
     helper
@@ -11,6 +11,7 @@ import { Hooks } from './hooks'
 
 import { Message } from './message'
 import { Parser } from './parser'
+import { Response } from './response'
 
 let defaultParses = [
     helper
@@ -23,10 +24,13 @@ export class Robot {
     defaultInteractPath: string
     hooks:Record<any,any>
     parsers:Array<Parser>
+    name:string
     constructor(options: Robot.options) {
 
         this.options = options
-        this.defaultInteractPath = Path.resolve(__dirname, '../interacts')
+        this.parsers = [];
+        this.name = options.name || "xiaoba"
+        this.defaultInteractPath = path.resolve(__dirname, '../interacts')
 
         this.loadInteract(); // 装载交互器,交互方式只有一个
 
@@ -35,12 +39,11 @@ export class Robot {
             beforeParser:new Hooks(this,'beforeParser'), // 解析器接入之前
             beforeSend:new Hooks(this,'beforeSend'), // 解析完，开始发回
         }
-
-        this.run()
     }
 
 
     run() {
+        console.log(`###adpater run`)
         this.interact?.run();
     }
 
@@ -48,6 +51,35 @@ export class Robot {
 
         await this.hooks.beforeParser.execute({ message })
 
+        await this.executeParser(message)
+
+        if (!message.hasDone) {
+            new Response({ msg:message,text:"小八还小,不知道你的问的问题诶",robot:this})
+
+        }
+
+        this.response(message);
+    }
+
+    async response(message:Message) {
+        await this.hooks.beforeSend.execute({ message });
+        
+        let interact = message.getInteract();
+
+        interact.send(message);
+    }
+
+
+    async executeParser(message:Message) {
+
+        let { parsers } = this;
+
+
+        for (let parser of parsers) {
+            parser.run(message)
+            if (message.hasDone())
+            return;
+        }
     }
 
     loadScripts(path:string){
@@ -56,7 +88,7 @@ export class Robot {
             return use(this);
             
         } catch (error) {
-            console.error(`load script faild, confirm ${path} is exsit`)
+            console.error(`load script ${path} faild, ${error}`)
             process.exit(0)
         }
     }
@@ -110,5 +142,6 @@ export namespace Robot {
         interactName?: string, // 交互方式
         interactPath?: string, // 可能是本地的交互器
         parserPaths?: Array<string>, // 解析器
+        name?:string, //机器人名字
     }
 }
