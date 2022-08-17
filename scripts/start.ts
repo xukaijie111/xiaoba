@@ -7,7 +7,7 @@ import {
 
 
 let r = new Robot({
-    interactName:"shell"
+    interactName:"app"
 })
 
 r.run()
