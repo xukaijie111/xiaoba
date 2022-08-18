@@ -18,12 +18,16 @@ import { Message } from './message'
 import { Parser } from './parser'
 import { Response } from './response'
 
+
+
 let chalk = require('chalk')
 
 let defaultParses = [
     helper,
     base
 ]
+
+
 
 export class Robot {
     interact: Record<any,any>

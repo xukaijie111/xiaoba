@@ -6,5 +6,8 @@
     "esModuleInterop": true,
     "strictPropertyInitialization":false,
     "esm":true
-}
+},
+"include": [
+  "./src"
+]
 }

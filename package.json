@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node  ./scripts/start.ts"
+    "start": "ts-node  ./scripts/start.ts",
+    "build":"tsc --outDir ./dist",
+    "app":"electron ./electron/main.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.182",
     "async": "^3.2.4",
+    "electron": "^20.0.3",
     "lodash": "^4.17.21",
     "optparse": "^1.0.5"
   }
