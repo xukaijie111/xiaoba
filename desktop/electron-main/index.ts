@@ -4,10 +4,13 @@ import path from 'path';
 
 const createWindow = () => {
   const win = new BrowserWindow({
+    height:230,
+    width:350,
+    resizable:false,
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
-      preload: path.join(__dirname, '../electron-preload/index.js'),
+      preload: path.join(__dirname, '../electron-preload/index.ts'),
     },
   });
 
