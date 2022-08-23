@@ -56,43 +56,32 @@ export default class Recorder {
         console.log(`###dataBuffer`, dataBuffer);
     }
 
-    saveMP3(cb: Function) {
-        //@ts-ignore
-        this.recorder && this.recorder.exportWAV(float32Array => {
-            let converter = new MP3Converter();
-            let sampleBits = this.recorder.config.sampleBits;
-            let channels = this.recorder.config.numChannels;
-            let sampleRate = this.recorder.context.sampleRate;
-            let config = {
-                samples: float32Array,
-                numChannels: channels,
-                sampleBits: sampleBits,
-                sampleRate: sampleRate
-            }
-            // 录音数据交由converter后台处理
-            //@ts-ignore
-            converter.convert(config, blob => {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    // arrayBuffer转换为buffer
-                    //@ts-ignore
-                    const buffer = this.arrayBuffer2buffer(e.target.result);
-                    cb(buffer);
-                }
-                // 把blob对象读取为arrayBuffer
-                reader.readAsArrayBuffer(blob);
-            });
-        });
+    exportWAV() {
+       this.recorder.exportWAV((blob:Blob) => {
+
+            this.createDownloadLink(blob,'utf-8')
+       })
     }
 
-    arrayBuffer2buffer(arrayBuffer: ArrayBuffer) {
-        let buf = new Buffer(arrayBuffer.byteLength);
-        let view = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < buf.length; ++i) {
-            buf[i] = view[i];
-        }
-        return buf;
+
+    createDownloadLink(blob:Blob,encoding:string) {
+	
+        var url = URL.createObjectURL(blob);
+        var au = document.createElement('audio');
+
+        var link = document.createElement('a');
+    
+        //add controls to the <audio> element
+        au.controls = true;
+        au.src = url;
+    
+        //link the a element to the blob
+        link.href = url;
+        link.download = new Date().toISOString() + '.'+encoding;
+        link.innerHTML = link.download;
+  
     }
+   
 }
 
 export namespace Recorder {
