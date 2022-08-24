@@ -16,13 +16,32 @@ class Base {
         let { robot } = this;
 
         robot.registerParser(/^火山账号/, (msg) => {
-            new Response({ msg, robot })
+            let res = new Response({ msg, robot })
+
+            try {
+                let config = require('../../config.json')
+                let { huoshan } = config;
+                res.set(`account: ${huoshan.account}`)
+                .set(`pwd:${huoshan.pwd}`)
+                .set(`url: ${huoshan.url}`)
+            } catch (error) {
+                
+            }
+
               
         })
 
 
         robot.registerParser(/^B端账(号|户)/i, (msg) => {
-            new Response({ msg, robot })
+            let res = new Response({ msg, robot })
+            try {
+                let config = require('../../config.json')
+                let { baccount } = config;
+                res.set(`account: ${baccount.account}`)
+                .set(`pwd:${baccount.pwd}`)
+            } catch (error) {
+                
+            }
                
         })
 
