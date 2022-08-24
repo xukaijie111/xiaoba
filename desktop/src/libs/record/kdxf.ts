@@ -1,6 +1,6 @@
 
 
-let config = require('./config.json')
+let config = require('../../../../config.json')
 
 let {
     appId,
@@ -9,6 +9,15 @@ let {
 
 export default class KDXF {
 
+        constructor() {
 
+
+        }
+
+
+        connectWebSocket() {
+
+
+        }
 
 }
